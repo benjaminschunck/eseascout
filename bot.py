@@ -25,7 +25,7 @@ async def ping(interaction: discord.Interaction):
 async def schedule(interaction: discord.Interaction):
     await interaction.response.defer()  # Acknowledge the command to avoid timeout
 
-    matches = faceit_client.get_upcoming_matches(CHAMPIONSHIP_ID, OUR_TEAM_ID, API_KEY)
+    matches = faceit_client.get_upcoming_matches(CHAMPIONSHIP_ID, API_KEY)
 
     embed = discord.Embed(title="Upcoming Matches", color=discord.Color.blue())
 
