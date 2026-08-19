@@ -2,13 +2,12 @@ import os
 import discord
 from discord import app_commands
 from dotenv import load_dotenv
-import requests
 
 from scout import faceit_client
 
 load_dotenv()
 BOT_TOKEN = os.getenv("DISCORD_BOT_TOKEN")
-GUILD_ID = discord.Object(id=1506979142329962596)  # paste your server ID as an integer
+GUILD_ID = discord.Object(id=os.getenv("DISCORD_GUILD_ID"))  # paste your server ID as an integer
 CHAMPIONSHIP_ID = "f31d714b-53de-4e09-9d3c-6eb0ac85bdbe"  # S58 EU Open5-8 Central - Regular Season
 OUR_TEAM_ID = "5a1da5f3-2d56-46d7-b0ae-93491b9ae486"       # Shock N Awe
 API_KEY = os.getenv("FACEIT_API_KEY")
