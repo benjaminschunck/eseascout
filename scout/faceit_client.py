@@ -10,3 +10,13 @@ def get_upcoming_matches(championship_id, api_key):
     matches = response.json()["items"]
 
     return matches
+
+def get_next_enemy_info(championship_id, team_id, api_key):
+
+    #1. get the team id of next opponent
+
+    #2. get the stats of the opponent team
+
+    #3. return the json response
+
+    return None
