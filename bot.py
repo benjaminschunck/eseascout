@@ -4,6 +4,8 @@ from discord import app_commands
 from dotenv import load_dotenv
 import requests
 
+from scout import faceit_client
+
 load_dotenv()
 BOT_TOKEN = os.getenv("DISCORD_BOT_TOKEN")
 GUILD_ID = discord.Object(id=1506979142329962596)  # paste your server ID as an integer
@@ -21,14 +23,9 @@ async def ping(interaction: discord.Interaction):
 
 @tree.command(name="schedule", description="Show our upcoming ESEA matches", guild=GUILD_ID)
 async def schedule(interaction: discord.Interaction):
-    await interaction.response.defer()
+    await interaction.response.defer()  # Acknowledge the command to avoid timeout
 
-    response = requests.get(
-        f"https://open.faceit.com/data/v4/championships/{CHAMPIONSHIP_ID}/matches",
-        params={"type": "upcoming", "limit": 100},
-        headers={"Authorization": f"Bearer {API_KEY}"}
-    )
-    matches = response.json()["items"]
+    matches = faceit_client.get_upcoming_matches(CHAMPIONSHIP_ID, OUR_TEAM_ID, API_KEY)
 
     embed = discord.Embed(title="Upcoming Matches", color=discord.Color.blue())
 
