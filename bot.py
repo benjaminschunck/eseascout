@@ -3,7 +3,7 @@ import discord
 from discord import app_commands
 from dotenv import load_dotenv
 
-from scout import faceit_client
+from scout import analysis, faceit_client
 
 load_dotenv()
 BOT_TOKEN = os.getenv("DISCORD_BOT_TOKEN")
@@ -53,10 +53,21 @@ async def schedule(interaction: discord.Interaction):
 
 @tree.command(name="nextmatch", description="Show the enemy stats for the next match", guild=GUILD_ID)
 async def nextmatch(interaction: discord.Interaction):
-    await interaction.response.defer()  # Acknowledge the command to avoid timeout
+    await interaction.response.defer()
 
-    next_match_info = faceit_client.get_next_enemy_info(CHAMPIONSHIP_ID, OUR_TEAM_ID, API_KEY)
-    
+    matches = faceit_client.get_upcoming_matches(CHAMPIONSHIP_ID, API_KEY)
+    next_match = analysis.get_next_match(matches, OUR_TEAM_ID)
+
+    if next_match is None:
+        await interaction.followup.send("No upcoming matches found.")
+        return
+
+    opponent_stats = faceit_client.get_team_stats(next_match["opponent_id"], API_KEY)
+
+    # TODO: parse/sort opponent_stats into per-map win rates — this is
+    #       the piece we haven't designed yet (step 3 from earlier)
+
+    # TODO: build the embed and send it 
 
 @client.event
 async def on_ready():

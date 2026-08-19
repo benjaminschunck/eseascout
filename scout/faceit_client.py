@@ -11,12 +11,12 @@ def get_upcoming_matches(championship_id, api_key):
 
     return matches
 
-def get_next_enemy_info(championship_id, team_id, api_key):
+def get_team_stats(team_id, api_key):
+    """
+    Fetch a team's CS2 stats from FACEIT — win rates, matches played,
+    broken down per map (in the response's "segments" field).
 
-    #1. get the team id of next opponent
-
-    #2. get the stats of the opponent team
-
-    #3. return the json response
-
-    return None
+    Returns the raw JSON response, unprocessed.
+    """
+    # TODO: GET https://open.faceit.com/data/v4/teams/{team_id}/stats/cs2
+    pass
