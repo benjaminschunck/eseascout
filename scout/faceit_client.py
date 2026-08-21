@@ -18,5 +18,9 @@ def get_team_stats(team_id, api_key):
 
     Returns the raw JSON response, unprocessed.
     """
-    # TODO: GET https://open.faceit.com/data/v4/teams/{team_id}/stats/cs2
-    pass
+    response = requests.get(
+        f"https://open.faceit.com/data/v4/teams/{team_id}/stats/cs2",
+        headers={"Authorization": f"Bearer {api_key}"}
+    )
+    response.raise_for_status()
+    return response.json()

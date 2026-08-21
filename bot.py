@@ -63,11 +63,27 @@ async def nextmatch(interaction: discord.Interaction):
         return
 
     opponent_stats = faceit_client.get_team_stats(next_match["opponent_id"], API_KEY)
+    map_stats = analysis.get_map_stats(opponent_stats)
 
-    # TODO: parse/sort opponent_stats into per-map win rates — this is
-    #       the piece we haven't designed yet (step 3 from earlier)
+    embed = discord.Embed(
+        title=f"Next Match: {next_match['opponent_name']}",
+        description=f"<t:{next_match['scheduled_at']}:F>",
+        color=discord.Color.orange(),
+    )
+    if map_stats:
+        embed.add_field(
+            name="Map win rates",
+            value="\n".join(
+                f"**{name}**: {win_rate:.1f}% ({matches} {'match' if matches == 1 else 'matches'})"
+                if matches is not None else f"**{name}**: {win_rate:.1f}% (match count unavailable)"
+                for name, win_rate, matches in map_stats
+            ),
+            inline=False,
+        )
+    else:
+        embed.add_field(name="Map win rates", value="No map statistics available.", inline=False)
 
-    # TODO: build the embed and send it 
+    await interaction.followup.send(embed=embed)
 
 @client.event
 async def on_ready():
